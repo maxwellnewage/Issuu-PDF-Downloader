@@ -1,6 +1,6 @@
+import os
 import urllib
 import requests
-import core.pdf as pdf
 
 
 def exists(path):
@@ -14,21 +14,23 @@ def downloader(url):
     # List to create the PDF
     files = []
     formatter = url.replace('page_1.jpg', '')
-    changer = 1
+    page_counter = 1
     while True:
-        changer2 = formatter + 'page_' + str(changer) + '.jpg'
-        filename = str(changer) + '.jpg'
-        if exists(changer2):
+        url_page = formatter + 'page_' + str(page_counter) + '.jpg'
+        filename = str(page_counter) + '.jpg'
+        if exists(url_page):
+            # Save image directory
+            filename_with_folder = os.path.join('./images/', filename)
             # Download images
-            opener = open(str(changer) + '.jpg', 'wb')
-            opener.write(urllib.request.urlopen(changer2).read())
+            opener = open(filename_with_folder, 'wb')
+            opener.write(urllib.request.urlopen(url_page).read())
             # Save images
             opener.close()
-            print('Correctly saved file ' + filename + ' From URI: ' + changer2)
+            print(f'Correctly saved file {filename} From URI: {url_page}')
             # Add filename to list, so we make the pdf later
-            files.append(filename)
+            files.append(filename_with_folder)
             # Go for the next one
-            changer += 1
+            page_counter += 1
         else:
             # No more images
             break

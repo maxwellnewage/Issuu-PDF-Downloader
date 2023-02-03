@@ -1,3 +1,5 @@
+import os
+
 from fpdf import FPDF
 from PIL import Image
 
@@ -17,6 +19,8 @@ def creator(pdflist):
         pdf.add_page(format=(width, height))
 
         pdf.image(imageFile, 0, 0, width, height)
-    pdf.output("output.pdf", "F")
+
+    filename_with_folder = os.path.join('./pdfs/', "output.pdf")
+    pdf.output(filename_with_folder, "F")
 
     print('Completed pdf creation...')
