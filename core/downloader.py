@@ -1,12 +1,19 @@
 import os
 import urllib
 import requests
+from utils import IMAGE_DIR
 
 
 def exists(path):
     # Check that image exists
     r = requests.head(path)
     return r.status_code == requests.codes.ok
+
+
+def delete_old_images():
+    for image in os.listdir(IMAGE_DIR):
+        if image.endswith(".jpg"):
+            os.remove(os.path.join(IMAGE_DIR, image))
 
 
 def downloader(url):
@@ -20,7 +27,7 @@ def downloader(url):
         filename = str(page_counter) + '.jpg'
         if exists(url_page):
             # Save image directory
-            filename_with_folder = os.path.join('./images/', filename)
+            filename_with_folder = os.path.join(IMAGE_DIR, filename)
             # Download images
             opener = open(filename_with_folder, 'wb')
             opener.write(urllib.request.urlopen(url_page).read())

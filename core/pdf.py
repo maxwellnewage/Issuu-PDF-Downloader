@@ -1,13 +1,11 @@
 import os
-
 from fpdf import FPDF
 from PIL import Image
 
-pdf = FPDF()
 
-
-def creator(pdflist):
-    print('Started pdf creation...')
+def creator(pdflist, pdf_filename):
+    pdf = FPDF()
+    print(f'Started {pdf_filename} creation...')
 
     for imageFile in pdflist:
         cover = Image.open(imageFile)
@@ -20,7 +18,7 @@ def creator(pdflist):
 
         pdf.image(imageFile, 0, 0, width, height)
 
-    filename_with_folder = os.path.join('./pdfs/', "output.pdf")
+    filename_with_folder = os.path.join('./pdfs/', pdf_filename)
     pdf.output(filename_with_folder, "F")
 
     print('Completed pdf creation...')
